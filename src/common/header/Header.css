@@ -19,3 +19,16 @@
         transform: rotate(359deg);
     }
 }
+
+.login-register-modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-style: ridge;
+}
+
+.login-register-form {
+    margin: 20px;
+}
