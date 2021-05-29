@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './Header.css';
 import Logo from '../../assets/logo.svg';
-import { Button, FormControl, FormHelperText, Input, InputLabel, Tab, Tabs, Typography } from '@material-ui/core';
+import { Button, Tab, Tabs, Typography } from '@material-ui/core';
 import Modal from 'react-modal';
 import PropTypes from 'prop-types';
+import LoginForm from '../../forms/LoginForm';
+import RegisterForm from '../../forms/RegisterForm';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -17,7 +19,7 @@ function TabPanel(props) {
         {...other}
       >
         {value === index && (
-            <Typography>{children}</Typography>
+            <Typography component = 'span'>{children}</Typography>
         )}
       </div>
     );
@@ -65,46 +67,10 @@ const Header = function () {
                         <Tab label="Item Two" {...a11yProps(1)} />
                     </Tabs>
                     <TabPanel value={value} index={0}>
-                        <div style = {{textAlign: 'center'}}>
-                            <form id = 'login-form' className = 'login-register-form'>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'userName'>Username</InputLabel>
-                                    <Input id = 'username'/>
-                                </FormControl><br/>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'password'>Password</InputLabel>
-                                    <Input required = 'true' id = 'password'/>
-                                </FormControl><br/><br/>
-                                <Button variant = 'contained' color = 'primary' style = {{float: 'center'}}>LOGIN</Button> 
-                            </form>
-                        </div>
+                        <LoginForm/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
-                        <div style = {{textAlign: 'center'}}>
-                            <form id = 'register-form' className = 'login-register-form'>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'first-name'>First Name</InputLabel>
-                                    <Input id = 'first-name'/>
-                                </FormControl><br/>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'last-name'>Last Name</InputLabel>
-                                    <Input required = 'true' id = 'last-name'/>
-                                </FormControl><br/>
-                                <FormControl required = 'true' >
-                                    <InputLabel htmlFor = 'email-address'>Email</InputLabel>
-                                    <Input required = 'true' id = 'email-address'/>
-                                </FormControl><br/>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'new-password'>Password</InputLabel>
-                                    <Input required = 'true' id = 'new-password'/>
-                                </FormControl><br/>
-                                <FormControl required = 'true'>
-                                    <InputLabel htmlFor = 'contact-no'>Contact No.</InputLabel>
-                                    <Input required = 'true' id = 'contact-no'/>
-                                </FormControl><br/><br/>
-                                <Button variant = 'contained' color = 'primary' style = {{float: 'center'}}>REGISTER</Button>
-                            </form>
-                        </div>
+                        <RegisterForm/>
                     </TabPanel>
                 </Modal>
         </div>
