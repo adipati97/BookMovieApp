@@ -51,11 +51,9 @@ const Header = function () {
     }, [])
 
     const updateLoggedInStatus = (loggedIn) => {
-      if (loggedIn) {
-        setIsUserLoggedIn(loggedIn);
+      setIsUserLoggedIn(loggedIn);
+      if (isOpen) {
         toggleModal();
-      } else {
-        alert('login failed');
       }
     }
 
@@ -67,12 +65,33 @@ const Header = function () {
         setIsOpen(!isOpen);
     }
 
+    function handleLogout () {
+      const logoutRequest = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": "Bearer " + sessionStorage.getItem('access-token')
+        }
+      };
+      fetch('/api/v1/auth/logout', logoutRequest)
+        .then(
+          (response) => {
+            if (response.status === 200) {
+              sessionStorage.removeItem('access-token');
+              updateLoggedInStatus(false);
+            } else {
+              console.log('Invalid access token');
+            }
+          }
+        )
+    }
+
     return (
         <div className = 'header-container'>
                 <img src = {Logo} alt = 'Logo' className = 'app-logo'/>
                 {isUserLoggedIn ?
                     <span>
-                        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Logout</Button>
+                        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {handleLogout}>Logout</Button>
                         <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Book Show</Button>
                     </span>
                     : <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {toggleModal}>Login</Button>
