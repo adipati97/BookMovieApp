@@ -44,8 +44,12 @@ const Header = function () {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
     const updateLoggedInStatus = (loggedIn) => {
+      if (loggedIn) {
         setIsUserLoggedIn(loggedIn);
         toggleModal();
+      } else {
+        alert('login failed');
+      }
     }
 
     const handleChange = (event, newValue) => {

@@ -4,32 +4,28 @@ import {Button, FormControl, Input, InputLabel} from '@material-ui/core';
 const LoginForm = function ({updateLoggedInStatus}) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loginSuccess, setLoginSuccess] = useState(false);
 
     function handleSubmit (e) {
         e.preventDefault();
-        // const credentials = window.btoa(username + ':' + password);
-        // const loginRequest = {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         "Accept": "application/json",
-        //         "authorization": "Basic " + credentials
-        //     }
-        // };
-        // fetch('http://localhost:8085/api/v1/auth/login', loginRequest)
-        //     .then(response => response.json())
-        //     .then(
-        //         (result) => {
-        //             setLoginSuccess(true);
-        //             updateLoggedInStatus(loginSuccess);
-        //         },
-        //         (error) => {
-        //             setLoginSuccess(false);
-        //             updateLoggedInStatus(loginSuccess);
-        //         }
-        //     )
-        updateLoggedInStatus(true);
+        const credentials = window.btoa(username + ':' + password);
+        const loginRequest = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+                "authorization": "Basic " + credentials
+            }
+        };
+        fetch('/api/v1/auth/login', loginRequest)
+            .then(
+                (response) => {
+                    sessionStorage.setItem('access-token', response.headers.get('access-token'));
+                    updateLoggedInStatus(true);
+                },
+                (error) => {
+                    updateLoggedInStatus(false);
+                }
+            )
     }
 
     return (
