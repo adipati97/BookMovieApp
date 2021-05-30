@@ -29,9 +29,9 @@ const ReleasedMovies = function () {
         return (
             <GridList cols = {4}>
                 {items.movies.map((movie) => (
-                    <GridListTile key={movie.id} style = {{height: '250px'}}>
+                    <GridListTile key={movie.id} style = {{height: '350px'}}>
                         <img src={movie.poster_url} alt={movie.title} />
-                        <GridListTileBar title = {movie.title}/>
+                        <GridListTileBar title = {movie.title} subtitle = {movie.release_date}/>
                     </GridListTile>
                 ))}
             </GridList>
