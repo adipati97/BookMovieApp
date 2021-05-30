@@ -44,7 +44,7 @@ const LoginForm = function ({updateLoggedInStatus}) {
                 </FormControl><br/>
                 <FormControl required = {true}>
                     <InputLabel htmlFor = 'password'>Password</InputLabel>
-                    <Input id = 'password' value = {password} onChange = {({ target }) => setPassword(target.value)}/>
+                    <Input id = 'password' value = {password} onChange = {({ target }) => setPassword(target.value)} type = 'password'/>
                 </FormControl><br/><br/>
                 <Button  type = 'submit' variant = 'contained' color = 'primary' style = {{float: 'center'}}>LOGIN</Button> 
             </form>
