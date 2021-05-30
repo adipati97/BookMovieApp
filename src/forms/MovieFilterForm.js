@@ -14,7 +14,7 @@ const styles = (theme) => ({
     }
 });
 
-const MovieFilterForm = (props) => {
+function MovieFilterForm (props) {
     const { classes } = props;
     const [movieName, setMovieName] = useState('');
     const [genres, setGenres] = useState([]);
@@ -36,12 +36,43 @@ const MovieFilterForm = (props) => {
         const responseBody = await response.json();
         setArtistsList(responseBody.artists);
     }
+
+    async function handleSubmit (e) {
+        e.preventDefault();
+        const headers = {
+            'Accept': 'application/json',
+            'authorization': 'Bearer ' + sessionStorage.getItem('access-token')
+        };
+        const response = await fetch('/api/v1/admin/movies?' + getQueryString(), {headers});
+        const responseBody = await response.json();
+        props.updateFilteredMovies(responseBody.movies);
+    }
+
+    function getQueryString () {
+        let queryString = 'status=RELEASED';
+        if (movieName.length > 0) {
+            queryString += '&title=' + encodeURIComponent(movieName);
+        }
+        if (genres.length > 0) {
+            queryString += '&genre=' + encodeURIComponent(genres);
+        }
+        if (artists.length > 0) {
+            queryString += '&artists=' + encodeURIComponent(artists);
+        }
+        if (releaseDateStart.length > 0) {
+            queryString += '&start_date=' + releaseDateStart;
+        }
+        if (setReleaseDateEnd.length > 0) {
+            queryString += '&end_date=' + releaseDateEnd;
+        }
+        return queryString;
+    }
     
     return (
         <Card>
             <CardContent>
                 <div className = {classes.heading}>FIND MOVIES BY:</div>
-                <form>
+                <form id = 'movie-filter-form' onSubmit = {(e) => {handleSubmit(e)}}>
                     <FormControl className = {classes.cardComponent}>
                         <InputLabel htmlFor = 'movieName'>Movie Name</InputLabel>
                         <Input id = 'movieName' type = 'text' value = {movieName} onChange = {({target}) => setMovieName(target.value)}/>
@@ -50,7 +81,7 @@ const MovieFilterForm = (props) => {
                         <InputLabel htmlFor = 'genres'>Genres</InputLabel>
                         <Select id = 'genres' multiple = {true} value = {genres} onChange = {({ target }) => setGenres(target.value)} onFocus = {getAllGenres}>
                             {genresList.map((genre) => (
-                                <MenuItem value = {genre.genre}>
+                                <MenuItem value = {genre.genre} key = {genre.id}>
                                     {genre.genre}
                                 </MenuItem>
                             ))}
@@ -60,7 +91,7 @@ const MovieFilterForm = (props) => {
                         <InputLabel htmlFor = 'artists'>Artists</InputLabel>
                         <Select id = 'artists' multiple = {true} value = {artists} onChange = {({ target }) => setArtists(target.value)} onFocus = {getAllArtists}>
                             {artistsList.map((artist) => (
-                                <MenuItem value = {artist.id}>
+                                <MenuItem value = {artist.first_name + ' ' + artist.last_name} key = {artist.id}>
                                     {artist.first_name + ' ' + artist.last_name}
                                 </MenuItem>
                             ))}
@@ -74,7 +105,7 @@ const MovieFilterForm = (props) => {
                         <InputLabel htmlFor = 'release-date-end' shrink = {true}>Release Date End</InputLabel>
                         <Input id = 'release-date-end' type = 'date' value = {releaseDateEnd} onChange = {({ target }) => setReleaseDateEnd(target.value)}/>
                     </FormControl>
-                    <Button variant = 'contained' color = 'primary' className = {classes.cardComponent}>APPLY</Button>
+                    <Button type = 'submit' variant = 'contained' color = 'primary' className = {classes.cardComponent}>APPLY</Button>
                 </form>
             </CardContent>
         </Card>

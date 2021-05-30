@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import Header from '../../common/header/Header';
 import UpcomingMovies from "./homecomponents/UpcomingMovies";
 import ReleasedMovies from "./homecomponents/ReleasedMovies";
@@ -6,6 +6,13 @@ import MovieFilterForm from "../../forms/MovieFilterForm";
 import './Home.css';
 
 const Home = function () {
+    const [filteredMovies, setFilteredMovies] = useState([]);
+
+    function updateFilteredMovies (movies) {
+        console.log(movies);
+        setFilteredMovies(movies);
+    }
+
     return (
         <div>
             <Header/>
@@ -16,7 +23,7 @@ const Home = function () {
                     <ReleasedMovies/>
                 </div>
                 <div style = {{width: '24%', margin: '16px'}}>
-                    <MovieFilterForm/>
+                    <MovieFilterForm updateFilteredMovies = {updateFilteredMovies}/>
                 </div>
             </div>
         </div>
