@@ -8,7 +8,7 @@ const ReleasedMovies = function () {
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:8085/api/v1/movies?page=1&limit=10&status=RELEASED')
+        fetch('/api/v1/movies?page=1&limit=10&status=RELEASED')
             .then(result => result.json())
             .then(
                 (result) => {
