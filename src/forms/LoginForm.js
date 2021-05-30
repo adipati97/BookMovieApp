@@ -17,13 +17,20 @@ const LoginForm = function ({updateLoggedInStatus}) {
             }
         };
         fetch('/api/v1/auth/login', loginRequest)
+            .then(response => {
+                if (!response.ok) {
+                    return response.json();
+                }
+                return response;
+            })
             .then(
                 (response) => {
-                    sessionStorage.setItem('access-token', response.headers.get('access-token'));
-                    updateLoggedInStatus(true);
-                },
-                (error) => {
-                    updateLoggedInStatus(false);
+                    if (response.headers) {
+                        sessionStorage.setItem('access-token', response.headers.get('access-token'));
+                        updateLoggedInStatus(true);
+                    } else {
+                        console.log(response.body);
+                    }
                 }
             )
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Header.css';
 import Logo from '../../assets/logo.svg';
 import { Button, Tab, Tabs, Typography } from '@material-ui/core';
@@ -42,6 +42,13 @@ const Header = function () {
     const [isOpen, setIsOpen] = useState(false);
     const [value, setValue] = React.useState(0);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
+
+    useEffect(() => {
+      const userAccessToken = sessionStorage.getItem('access-token');
+      if (userAccessToken) {
+        setIsUserLoggedIn(true);
+      }
+    }, [])
 
     const updateLoggedInStatus = (loggedIn) => {
       if (loggedIn) {
