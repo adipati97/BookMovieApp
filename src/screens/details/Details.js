@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../common/header/Header';
 import './Details.css'
+import YouTube from 'react-youtube';
 
 const Details = function (props) {
     const [movie, setMovie] = useState();
@@ -38,7 +39,33 @@ const Details = function (props) {
                     <div style = {{width: '20%', marginLeft: '24px'}}>
                         <img src = {movie.poster_url}/>
                     </div>
-                    <div style = {{width: '60%'}}>Movie Details and Trailer</div>
+                    <div style = {{width: '60%'}}>
+                        <Typography variant = 'h2'>{movie.title}</Typography>
+                        <div>
+                            <Typography inline = {true} style = {{fontWeight: 'bold'} }>Genre: </Typography>
+                            <Typography inline = {true}>{movie.genres.join()}</Typography>
+                        </div>
+                        <div>
+                            <Typography inline = {true} style = {{fontWeight: 'bold'}}>Duration: </Typography>
+                            <Typography inline = {true}>{movie.duration}</Typography>
+                        </div>
+                        <div>
+                            <Typography inline = {true} style = {{fontWeight: 'bold'}}>Release Date: </Typography>
+                            <Typography inline = {true}>{new Date(movie.release_date).toDateString()}</Typography>
+                        </div>
+                        <div>
+                            <Typography inline = {true} style = {{fontWeight: 'bold'}}>Rating: </Typography>
+                            <Typography inline = {true}>{movie.critics_rating}</Typography>
+                        </div>
+                        <div style = {{marginTop: '16px'}}>
+                            <Typography inline = {true} style = {{fontWeight: 'bold'}}>Plot: </Typography>
+                            <Typography inline = {true}>{movie.storyline}</Typography>
+                        </div>
+                        <div style = {{marginTop: '16px'}}>
+                            <Typography style = {{fontWeight: 'bold'}}>Trailer: </Typography>
+                            <YouTube videoId = {movie.trailer_url.split('v=')[1]}/>
+                        </div>
+                    </div>
                     <div style = {{width: '20%'}}>Artists</div>
                 </div>
             </div>
