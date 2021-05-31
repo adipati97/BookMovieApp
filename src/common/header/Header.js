@@ -38,7 +38,7 @@ function TabPanel(props) {
     };
   }  
 
-const Header = function () {
+const Header = function (props) {
     const [isOpen, setIsOpen] = useState(false);
     const [value, setValue] = React.useState(0);
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -86,33 +86,46 @@ const Header = function () {
         )
     }
 
+    let buttonsToDisplay;
+    if (props.movieId !== undefined) {
+      buttonsToDisplay = isUserLoggedIn ?
+        <span>
+          <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {handleLogout}>Logout</Button>
+          <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Book Show</Button>
+        </span>
+        :
+        <span>
+          <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {toggleModal}>Login</Button>
+          <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {toggleModal}>Book Show</Button>
+        </span>
+    } else {
+      buttonsToDisplay = isUserLoggedIn ?
+        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {handleLogout}>Logout</Button>
+        :
+        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {toggleModal}>Login</Button>
+    }
+
     return (
         <div className = 'header-container'>
-                <img src = {Logo} alt = 'Logo' className = 'app-logo'/>
-                {isUserLoggedIn ?
-                    <span>
-                        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {handleLogout}>Logout</Button>
-                        <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Book Show</Button>
-                    </span>
-                    : <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {toggleModal}>Login</Button>
-                }
-                <Modal
-                    isOpen = {isOpen}
-                    onRequestClose = {toggleModal}
-                    contentLabel = "Login-Register Modal"
-                    className = 'login-register-modal'
-                    centered>
-                    <Tabs value = {value} onChange = {handleChange}>
-                        <Tab label = "Item One" {...a11yProps(0)} />
-                        <Tab label = "Item Two" {...a11yProps(1)} />
-                    </Tabs>
-                    <TabPanel value = {value} index = {0}>
-                        <LoginForm updateLoggedInStatus = {updateLoggedInStatus} isUserLoggedIn = {isUserLoggedIn}/>
-                    </TabPanel>
-                    <TabPanel value = {value} index = {1}>
-                        <RegisterForm/>
-                    </TabPanel>
-                </Modal>
+          <img src = {Logo} alt = 'Logo' className = 'app-logo'/>
+          {buttonsToDisplay}
+          <Modal
+              isOpen = {isOpen}
+              onRequestClose = {toggleModal}
+              contentLabel = "Login-Register Modal"
+              className = 'login-register-modal'
+              centered>
+              <Tabs value = {value} onChange = {handleChange}>
+                  <Tab label = "Item One" {...a11yProps(0)} />
+                  <Tab label = "Item Two" {...a11yProps(1)} />
+              </Tabs>
+              <TabPanel value = {value} index = {0}>
+                  <LoginForm updateLoggedInStatus = {updateLoggedInStatus} isUserLoggedIn = {isUserLoggedIn}/>
+              </TabPanel>
+              <TabPanel value = {value} index = {1}>
+                  <RegisterForm/>
+              </TabPanel>
+          </Modal>
         </div>
   );
 }

@@ -5,7 +5,7 @@ import ReleasedMovies from "./homecomponents/ReleasedMovies";
 import MovieFilterForm from "../../forms/MovieFilterForm";
 import './Home.css';
 
-const Home = function () {
+const Home = function (props) {
     const [upcomingMovies, setUpcomingMovies] = useState([]);
     const [releasedMovies, setReleasedMovies] = useState([]);
 
@@ -34,7 +34,7 @@ const Home = function () {
 
     return (
         <div>
-            <Header/>
+            <Header movieId = {props.match.params.id}/>
             <div className = 'upcoming-movies-heading'>Upcoming Movies</div>
             <UpcomingMovies upcomingMovies = {upcomingMovies}/>
             <div className = 'released-movies-container'>
