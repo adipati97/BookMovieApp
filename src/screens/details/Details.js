@@ -1,9 +1,10 @@
-import { Typography } from '@material-ui/core';
+import { GridList, GridListTile, GridListTileBar, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../common/header/Header';
 import './Details.css'
 import YouTube from 'react-youtube';
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 const Details = function (props) {
     const [movie, setMovie] = useState();
@@ -27,6 +28,10 @@ const Details = function (props) {
     if (movie === undefined) {
         return (<div>Loading...</div>)
     } else {
+        const toggleStarFilling = (e) => {
+            console.log(e.target.style.fill);
+            e.target.style.fill = 'black' ? 'yellow' : 'black';
+        }
         return(
             <div>
                 <Header/>
@@ -66,7 +71,26 @@ const Details = function (props) {
                             <YouTube videoId = {movie.trailer_url.split('v=')[1]}/>
                         </div>
                     </div>
-                    <div style = {{width: '20%'}}>Artists</div>
+                    <div style = {{width: '20%'}}>
+                        <Typography style = {{fontWeight: 'bold'}}>Rate this movie:</Typography>
+                        <span className = 'movie-rating'>
+                            <StarBorderIcon style = {{fill: 'black'}} onClick = {toggleStarFilling}/>
+                            <StarBorderIcon style = {{fill: 'black'}} onClick = {toggleStarFilling}/>
+                            <StarBorderIcon style = {{fill: 'black'}} onClick = {toggleStarFilling}/>
+                            <StarBorderIcon style = {{fill: 'black'}} onClick = {toggleStarFilling}/>
+                            <StarBorderIcon style = {{fill: 'black'}} onClick = {toggleStarFilling}/>
+                        </span>
+                        <div style = {{marginTop: '16px'}}>
+                            <GridList cols = {2}>
+                                {movie.artists.map((artist) => (
+                                    <GridListTile key={artist.id}>
+                                        <img src={artist.profile_url} alt={artist.first_name + artist.last_name}/>
+                                        <GridListTileBar title = {artist.first_name + artist.last_name}/>
+                                    </GridListTile>
+                                ))}
+                            </GridList>
+                        </div>
+                    </div>
                 </div>
             </div>
         )
