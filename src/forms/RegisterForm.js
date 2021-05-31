@@ -32,11 +32,9 @@ const RegisterForm = function () {
             .then(
                 (response) => {
                     if (response.id) {
-                        setRegistrationSuccess(true);
                         setRegistrationMessage('Registration successful. Please login!');
                     } else {
                         setRegistrationMessage(response.message);
-                        setRegistrationSuccess(false);
                     }
                 }
             )

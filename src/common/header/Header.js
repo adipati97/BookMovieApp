@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import PropTypes from 'prop-types';
 import LoginForm from '../../forms/LoginForm';
 import RegisterForm from '../../forms/RegisterForm';
+import {Link} from 'react-router-dom';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -91,7 +92,9 @@ const Header = function (props) {
       buttonsToDisplay = isUserLoggedIn ?
         <span>
           <Button variant = 'contained' color = 'primary' style = {{float: 'right'}} onClick = {handleLogout}>Logout</Button>
-          <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Book Show</Button>
+          <Link to = {'/BookShow/' + props.movieId}>
+            <Button variant = 'contained' color = 'primary' style = {{float: 'right'}}>Book Show</Button>
+          </Link>
         </span>
         :
         <span>
@@ -116,8 +119,8 @@ const Header = function (props) {
               className = 'login-register-modal'
               centered>
               <Tabs value = {value} onChange = {handleChange}>
-                  <Tab label = "Item One" {...a11yProps(0)} />
-                  <Tab label = "Item Two" {...a11yProps(1)} />
+                  <Tab label = "Login" {...a11yProps(0)} />
+                  <Tab label = "Register" {...a11yProps(1)} />
               </Tabs>
               <TabPanel value = {value} index = {0}>
                   <LoginForm updateLoggedInStatus = {updateLoggedInStatus} isUserLoggedIn = {isUserLoggedIn}/>
