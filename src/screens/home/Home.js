@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from '../../common/header/Header';
 import UpcomingMovies from "./homecomponents/UpcomingMovies";
 import ReleasedMovies from "./homecomponents/ReleasedMovies";
@@ -6,21 +6,40 @@ import MovieFilterForm from "../../forms/MovieFilterForm";
 import './Home.css';
 
 const Home = function () {
-    const [filteredMovies, setFilteredMovies] = useState([]);
+    const [upcomingMovies, setUpcomingMovies] = useState([]);
+    const [releasedMovies, setReleasedMovies] = useState([]);
+
+    useEffect(() => {
+        setUpcomingMoviesList();
+        setReleasedMoviesList();
+    }, [])
+
+    async function setUpcomingMoviesList () {
+        const response = await fetch('/api/v1/movies?status=PUBLISHED');
+        const responseBody = await response.json();
+        setUpcomingMovies(responseBody.movies);
+    }
+
+    async function setReleasedMoviesList () {
+        const response = await fetch('/api/v1/movies?status=RELEASED');
+        const responseBody = await response.json();
+        setReleasedMovies(responseBody.movies);
+    }
 
     function updateFilteredMovies (movies) {
-        console.log(movies);
-        setFilteredMovies(movies);
+        setReleasedMovies(movies);
     }
+
+
 
     return (
         <div>
             <Header/>
             <div className = 'upcoming-movies-heading'>Upcoming Movies</div>
-            <UpcomingMovies/>
+            <UpcomingMovies upcomingMovies = {upcomingMovies}/>
             <div className = 'released-movies-container'>
                 <div style = {{width: '76%', margin: '16px'}}>
-                    <ReleasedMovies/>
+                    <ReleasedMovies releasedMovies = {releasedMovies}/>
                 </div>
                 <div style = {{width: '24%', margin: '16px'}}>
                     <MovieFilterForm updateFilteredMovies = {updateFilteredMovies}/>

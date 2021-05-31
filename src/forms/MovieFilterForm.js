@@ -45,6 +45,7 @@ function MovieFilterForm (props) {
         };
         const response = await fetch('/api/v1/admin/movies?' + getQueryString(), {headers});
         const responseBody = await response.json();
+        console.log(responseBody);
         props.updateFilteredMovies(responseBody.movies);
     }
 
