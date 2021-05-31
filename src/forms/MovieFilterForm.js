@@ -44,8 +44,12 @@ function MovieFilterForm (props) {
             'authorization': 'Bearer ' + sessionStorage.getItem('access-token')
         };
         const response = await fetch('/api/v1/admin/movies?' + getQueryString(), {headers});
-        const responseBody = await response.json();
-        props.updateFilteredMovies(responseBody.movies);
+        if (!response.ok) {
+            alert('You must be signed in to filter movies');
+        } else {
+            const responseBody = await response.json();
+            props.updateFilteredMovies(responseBody.movies);
+        }
     }
 
     function getQueryString () {
